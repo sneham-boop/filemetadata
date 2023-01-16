@@ -3,6 +3,21 @@ var cors = require('cors');
 require('dotenv').config()
 
 var app = express();
+const bodyParser = require("body-parser");
+app.use(bodyParser.urlencoded({ extended: false }));
+
+// Database connection
+const mongoose = require("mongoose");
+mongoose
+  .connect(process.env["MONGO_URI"], {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log("Connected to database."))
+  .catch((e) => console.log("No connection to database.", e));
+
+const Schema = mongoose.Schema;
+
 
 app.use(cors());
 app.use('/public', express.static(process.cwd() + '/public'));
